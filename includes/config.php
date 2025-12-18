@@ -2,7 +2,15 @@
 session_start();
 
 // Détection automatique de l'environnement
-if ($_SERVER['HTTP_HOST'] === 'localhost' || $_SERVER['HTTP_HOST'] === '127.0.0.1') {
+$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+$isLocal = (
+    strpos($host, 'localhost') !== false || 
+    strpos($host, '127.0.0.1') !== false || 
+    strpos($host, '.test') !== false ||
+    strpos($host, '.local') !== false
+);
+
+if ($isLocal) {
    // Configuration locale (Laragon)
    $dsn = 'mysql:host=localhost;dbname=disco';
    $user = 'root';
